@@ -1094,50 +1094,57 @@
 
 /* 小画面対応 */
   @media (max-width: 800px) {
-    /* 📱 ユーザー提案採用：高さを強制せず、ブラウザの「自動計算」に任せて自然にスクロールさせる！ */
-    html, body { 
-      height: auto !important; 
-      min-height: 100% !important; 
-      overflow-y: auto !important; 
-      overflow-x: hidden !important; 
-      touch-action: auto !important; /* 指でのスクロールを完全許可 */
-    }
-    
-    /* 🚨 図鑑バグ修正：私の書いた余計な表示命令を削除し、本来のタブ切り替え機能を復活！ */
-    .tab-page, #page-creator, #page-gallery { 
-      height: auto !important; 
-      overflow: visible !important; 
-    }
-    
-    .app-body { 
-      flex-direction: column !important; 
-      height: auto !important; 
-      overflow: visible !important;
-    }
-    
-    /* 魔法陣は画面に合わせて自動中央寄せ */
-    #dropzone { 
-      width: 320px !important; 
-      height: 320px !important; 
-      margin: 10px auto !important;
-    }
-    
-    /* パーツパネル：3段目まで見えるように高さを確保し、横スクロール */
-    .palette-panel { 
-      width: 100% !important; 
-      height: 220px !important; 
-      min-height: 220px !important; 
-      flex-direction: row !important; 
-      overflow-x: auto !important; 
-      overflow-y: hidden !important; 
+    /* 📱 1. 指でのスクロール凍結を「完全解除」！これで下に行けます */
+    html, body {
+      height: auto !important;
+      min-height: 100% !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      touch-action: pan-y auto !important; /* 👈 指での縦スクロールを許可する最重要コード */
+      -webkit-overflow-scrolling: touch !important;
     }
 
-    /* 🚨 消えていた完成ボタン（フッター）を、画面の一番下に「自動計算」で配置！ */
+    /* 📖 2. 図鑑バグの修正（JSのタブ切り替えを邪魔しない設定） */
+    .tab-page {
+      height: auto !important;
+      overflow: visible !important;
+      /* 🚨 display は絶対に上書きしない（JSの切り替えを活かす） */
+    }
+    .tab-page.active {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    /* 🐉 3. 作る画面のレイアウト（自動計算で縦に積む） */
+    .app-body {
+      display: flex !important;
+      flex-direction: column !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+
+    #dropzone {
+      width: 300px !important;
+      height: 300px !important;
+      margin: 10px auto 20px !important;
+    }
+
+    .palette-panel {
+      width: 100% !important;
+      height: 240px !important;
+      min-height: 240px !important;
+      flex-direction: row !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      touch-action: pan-x !important; /* パレット内は横スクロールのみ許可 */
+    }
+
+    /* 🔘 4. 完成ボタンを一番下に配置し、スマホの下線と被らないようにする */
     footer {
-      position: relative !important;
-      flex-shrink: 0 !important;
-      margin-top: 20px !important;
-      padding-bottom: 40px !important; /* iPhoneの下の線（ホームバー）と被らないように余白 */
+      position: static !important;
+      display: flex !important;
+      margin-top: 10px !important;
+      padding-bottom: 50px !important; 
     }
   }
 </style>
@@ -1440,22 +1447,6 @@ function applyTransform(el) {
   const rot = parseFloat(el.dataset.rotate) || 0;
   el.style.transform = `translate(-50%, -50%) scale(${sc}) rotate(${rot}deg)`;
 }
-
-// ===== iOS/iPadでのスクロール・選択を防止 =====
-// ボタン・入力欄以外のtouchstartをpreventDefaultでブロック
-document.addEventListener('touchstart', e => {
-  const tag = e.target.tagName;
-  // ボタン・入力・スライダーはブロックしない
-  if (tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA') return;
-  e.preventDefault();
-}, { passive: false });
-document.addEventListener('touchmove', e => {
-  const tag = e.target.tagName;
-  if (tag === 'INPUT') return; // スライダーは許可
-  e.preventDefault();
-}, { passive: false });
-document.addEventListener('contextmenu', e => e.preventDefault());
-
 // ===== パーツ定義マップ =====
 // 後で本物の画像に差し替える際は、ここに画像URLを追加するだけでOK
 // 例: 'eye-red': { label: '炎の瞳', html: '<img src="eye_red.png">' }
