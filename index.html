@@ -1094,54 +1094,52 @@
 
 /* 小画面対応 */
   @media (max-width: 800px) {
-    /* 🚨 罪1：スマホの「指スクロール禁止」を強制解除してボタンの元へ行けるようにする！ */
+    /* 📱 ユーザー提案採用：高さを強制せず、ブラウザの「自動計算」に任せて自然にスクロールさせる！ */
     html, body { 
-      touch-action: auto !important; 
       height: auto !important; 
-      min-height: 100dvh !important; 
+      min-height: 100% !important; 
       overflow-y: auto !important; 
       overflow-x: hidden !important; 
+      touch-action: auto !important; /* 指でのスクロールを完全許可 */
     }
     
-    /* 🚨 罪2：図鑑切り替えバグの修正（余計なdisplay指定を削除し、スクロールだけ許可） */
+    /* 🚨 図鑑バグ修正：私の書いた余計な表示命令を削除し、本来のタブ切り替え機能を復活！ */
     .tab-page, #page-creator, #page-gallery { 
       height: auto !important; 
-      min-height: 100vh !important; 
-      overflow-y: auto !important; 
-      overflow-x: hidden !important;
+      overflow: visible !important; 
     }
     
     .app-body { 
-      display: flex !important;
       flex-direction: column !important; 
-      height: auto !important;
+      height: auto !important; 
+      overflow: visible !important;
     }
     
+    /* 魔法陣は画面に合わせて自動中央寄せ */
     #dropzone { 
-      width: 300px !important; 
-      height: 300px !important; 
+      width: 320px !important; 
+      height: 320px !important; 
       margin: 10px auto !important;
     }
     
+    /* パーツパネル：3段目まで見えるように高さを確保し、横スクロール */
     .palette-panel { 
       width: 100% !important; 
       height: 220px !important; 
       min-height: 220px !important; 
-      display: flex !important;
       flex-direction: row !important; 
       overflow-x: auto !important; 
       overflow-y: hidden !important; 
-      border-left: none !important; 
-      border-top: 1px solid var(--border-glow) !important; 
     }
 
-    /* 🚨 ボタンエリア（フッター）が一番下でしっかり見えるように余白を追加 */
+    /* 🚨 消えていた完成ボタン（フッター）を、画面の一番下に「自動計算」で配置！ */
     footer {
+      position: relative !important;
       flex-shrink: 0 !important;
-      margin-bottom: 30px !important;
+      margin-top: 20px !important;
+      padding-bottom: 40px !important; /* iPhoneの下の線（ホームバー）と被らないように余白 */
     }
   }
-  
 </style>
 </head>
 <body>
