@@ -26,25 +26,21 @@
 
  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* 🚨 修正1：タッチやスクロールの完全禁止を解除（pan-yを追加） */
   html, body {
     touch-action: pan-y auto;
     -webkit-user-select: none;
     user-select: none;
     -webkit-touch-callout: none;
     overscroll-behavior: none;
-    height: auto;
-    min-height: 100%;
+    height: 100%; /* 🚨 autoではなく100%に戻す！これで潰れない！ */
   }
 
-  /* 🚨 修正2：PC版でも画面が狭いときは縦スクロールを許可！ */
   body {
     font-family: 'Noto Serif JP', serif;
     background: var(--bg-void);
     color: var(--text-primary);
-    min-height: 100vh;
-    overflow-y: auto;    /* 👈 ここを hidden から auto に変更！ */
-    overflow-x: hidden;
+    height: 100vh; /* 🚨 これも元通りに！ */
+    overflow: hidden; 
     display: flex;
     flex-direction: column;
   }
@@ -105,13 +101,14 @@
     filter: drop-shadow(0 0 20px rgba(201,162,39,0.5));
   }
 
- /* ===== メインレイアウト ===== */
+/* ===== メインレイアウト ===== */
   .app-body {
     flex: 1;
     display: flex;
-    overflow: visible; /* 👈 ここを hidden から visible に変更！ */
+    overflow: visible; 
     position: relative;
     z-index: 1;
+    min-height: 550px; /* 🚨 ここが魔法のつっかえ棒！これ以上画面が潰れなくなります */
   }
 
   /* ===== キャンバスエリア（左側） ===== */
@@ -1097,11 +1094,13 @@
     }
 
     /* 📖 2. 図鑑バグの修正（JSのタブ切り替えを邪魔しない設定） */
-    .tab-page {
-      height: auto !important;
-      overflow: visible !important;
-      /* 🚨 display は絶対に上書きしない（JSの切り替えを活かす） */
-    }
+   .tab-page {
+    display: none;
+    flex: 1;
+    overflow-y: auto; /* 🚨 画面が狭くなったときのスクロールバーはここに出す！ */
+    flex-direction: column;
+    min-height: 0;
+  }
     .tab-page.active {
       display: flex !important;
       flex-direction: column !important;
