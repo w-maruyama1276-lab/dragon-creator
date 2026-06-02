@@ -35,12 +35,13 @@
     height: 100%; /* 🚨 autoではなく100%に戻す！これで潰れない！ */
   }
 
-  body {
+body {
     font-family: 'Noto Serif JP', serif;
     background: var(--bg-void);
     color: var(--text-primary);
-    height: 100vh; /* 🚨 これも元通りに！ */
-    overflow: hidden; 
+    min-height: 100vh;
+    overflow-y: auto; /* 🚨 窓の大元で縦スクロールを許可！ */
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
   }
@@ -1063,26 +1064,25 @@
     color: var(--accent-gold);
   }
 
-  .tab-page {
+ .tab-page {
     display: none;
     flex: 1;
-    overflow: visible; /* 👈 ここを hidden から visible に変更！ */
+    overflow: visible; /* 👈 大正解！ここをvisibleにして大元に通す */
     flex-direction: column;
     min-height: 0;
   }
-.tab-page.active {
+  .tab-page.active {
     display: flex;
   }
   .gallery-page-inner {
     flex: 1;
-    overflow-y: auto;
+    overflow: visible; /* 🚨 ここも auto から visible に変更！図鑑のスクロールも大元に任せる */
     overflow-x: hidden;
     padding: 20px;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     min-height: 0;
   }
-
 /* 小画面対応 */
   @media (max-width: 800px) {
     /* 📱 1. 指でのスクロール凍結を「完全解除」！これで下に行けます */
