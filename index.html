@@ -26,21 +26,30 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+ /* ===== 最強のiOS Safari対策ベース設定 ===== */
   html, body {
-    touch-action: none;
+    touch-action: pan-y; /* スクロールを許可 */
     -webkit-user-select: none;
     user-select: none;
     -webkit-touch-callout: none;
     overscroll-behavior: none;
+    
+    /* 🚨 100vhの呪いを解き、スマホの実際に見える高さ（dvh）に合わせる */
     height: 100%;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    min-height: 100dvh; 
   }
 
   body {
     font-family: 'Noto Serif JP', serif;
     background: var(--bg-void);
     color: var(--text-primary);
-    height: 100vh;
-    overflow: hidden;
+    
+    /* 🚨 パソコンでもスマホでも、スクロールできるように解放 */
+    overflow-y: auto; 
+    overflow-x: hidden;
+    
     display: flex;
     flex-direction: column;
   }
@@ -1085,25 +1094,21 @@
 
 /* 小画面対応 */
   @media (max-width: 800px) {
-    /* 🚨 諸悪の根源「スクロール禁止」を完全撤廃！スマホらしく縦スクロール解放！ */
-    html, body { 
+    /* スクロールを強制解放 */
+    html, body, .tab-page, #page-creator, #page-gallery, .app-body { 
       height: auto !important; 
-      overflow-y: auto !important; 
+      min-height: 0 !important;
+      overflow-y: auto !important;
       overflow-x: hidden !important; 
     }
     
-    /* ページ全体を中身に合わせて下に伸ばす */
-    .tab-page, #page-creator, #page-gallery { 
-      height: auto !important; 
-      min-height: 100vh !important; 
-      overflow: visible !important; 
+    .tab-page {
+      display: flex;
+      flex-direction: column;
     }
-    
-    /* 縦並びにして、一番下に余裕（余白）を持たせる */
+
     .app-body { 
-      display: flex !important;
       flex-direction: column !important; 
-      height: auto !important;
       padding-bottom: 50px !important; 
     }
     
@@ -1113,7 +1118,7 @@
       margin: 10px auto !important;
     }
     
-    /* 🚨 3段目のパーツを救出！高さを140px➔220pxに大幅拡大！ */
+    /* パーツパネル：横並びスクロール＆高さ確保 */
     .palette-panel { 
       width: 100% !important; 
       height: 220px !important; 
@@ -1124,6 +1129,7 @@
       overflow-y: hidden !important; 
       border-left: none !important; 
       border-top: 1px solid var(--border-glow) !important; 
+      padding-bottom: 20px !important; /* 下にめり込まないよう余白追加 */
     }
   }
   
