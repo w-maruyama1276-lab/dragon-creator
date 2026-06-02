@@ -1085,6 +1085,10 @@
 
 /* 小画面対応 */
   @media (max-width: 800px) {
+    /* 🚨 縦にはみ出してもスクロールできるように、スマホ・タブを作成画面・図鑑ともに全面解放！ */
+    html, body { height: auto !important; overflow-y: auto !important; }
+    .tab-page { height: auto !important; overflow-y: visible !important; min-height: 100vh; }
+    
     .app-body { flex-direction: column; }
     .palette-panel { width: 100%; height: 180px; overflow-x: auto; overflow-y: hidden; flex-direction: row; border-left: none; border-top: 1px solid var(--border-glow); }
     #dropzone { width: 320px; height: 320px; }
