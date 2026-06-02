@@ -1085,42 +1085,39 @@
 
 /* 小画面対応 */
   @media (max-width: 800px) {
-    /* 全体の基本（画面からはみ出さない土台） */
+    /* 🚨 諸悪の根源「スクロール禁止」を完全撤廃！スマホらしく縦スクロール解放！ */
     html, body { 
-      height: 100% !important; 
-      overflow: hidden !important; 
+      height: auto !important; 
+      overflow-y: auto !important; 
+      overflow-x: hidden !important; 
     }
     
-    /* 🛠️ 作る画面：1画面にすっぽり収めてボタンを救出！ */
-    #page-creator { 
-      height: calc(100% - 100px) !important; 
-      overflow: hidden !important; 
+    /* ページ全体を中身に合わせて下に伸ばす */
+    .tab-page, #page-creator, #page-gallery { 
+      height: auto !important; 
+      min-height: 100vh !important; 
+      overflow: visible !important; 
     }
     
-    /* 📖 図鑑画面：🚨ここが犯人！縦スクロールを100%全面許可！！ */
-    #page-gallery { 
-      height: calc(100% - 100px) !important; 
-      overflow-y: auto !important; /* 縦スクロールを解禁 */
-      -webkit-overflow-scrolling: touch; /* スマホでヌルヌル動かす魔法 */
-    }
-    
+    /* 縦並びにして、一番下に余裕（余白）を持たせる */
     .app-body { 
       display: flex !important;
       flex-direction: column !important; 
-      height: 100% !important;
-      justify-content: space-between !important; 
+      height: auto !important;
+      padding-bottom: 50px !important; 
     }
     
     #dropzone { 
-      width: 260px !important; 
-      height: 260px !important; 
+      width: 300px !important; 
+      height: 300px !important; 
       margin: 10px auto !important;
     }
     
+    /* 🚨 3段目のパーツを救出！高さを140px➔220pxに大幅拡大！ */
     .palette-panel { 
       width: 100% !important; 
-      height: 140px !important; 
-      min-height: 140px !important; 
+      height: 220px !important; 
+      min-height: 220px !important; 
       display: flex !important;
       flex-direction: row !important; 
       overflow-x: auto !important; 
