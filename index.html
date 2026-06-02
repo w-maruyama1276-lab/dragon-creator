@@ -1085,33 +1085,42 @@
 
 /* 小画面対応 */
   @media (max-width: 800px) {
-    /* 🚨 端末やブラウザごとの高さ計算のバグを完全粉砕！ */
-    html, body, .tab-page, .app-body, .canvas-area { 
-      height: auto !important; 
-      overflow: visible !important; 
+    /* 全体の基本（画面からはみ出さない土台） */
+    html, body { 
+      height: 100% !important; 
+      overflow: hidden !important; 
+    }
+    
+    /* 🛠️ 作る画面：1画面にすっぽり収めてボタンを救出！ */
+    #page-creator { 
+      height: calc(100% - 100px) !important; 
+      overflow: hidden !important; 
+    }
+    
+    /* 📖 図鑑画面：🚨ここが犯人！縦スクロールを100%全面許可！！ */
+    #page-gallery { 
+      height: calc(100% - 100px) !important; 
+      overflow-y: auto !important; /* 縦スクロールを解禁 */
+      -webkit-overflow-scrolling: touch; /* スマホでヌルヌル動かす魔法 */
     }
     
     .app-body { 
       display: flex !important;
       flex-direction: column !important; 
+      height: 100% !important;
+      justify-content: space-between !important; 
     }
     
-    .canvas-area {
-      height: auto !important;
-      padding-bottom: 20px !important;
-    }
-
     #dropzone { 
-      width: 320px !important; 
-      height: 320px !important; 
-      margin: 0 auto !important;
+      width: 260px !important; 
+      height: 260px !important; 
+      margin: 10px auto !important;
     }
     
-    /* 🚨 パーツパネルの高さが0に潰れるのを「min-height」で絶対阻止！ */
     .palette-panel { 
       width: 100% !important; 
-      height: 180px !important; 
-      min-height: 180px !important; /* 👈 これがChromeの横暴を止める切り札！ */
+      height: 140px !important; 
+      min-height: 140px !important; 
       display: flex !important;
       flex-direction: row !important; 
       overflow-x: auto !important; 
