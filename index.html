@@ -24,32 +24,27 @@
     --drop-active: rgba(201, 162, 39, 0.18);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+ * { box-sizing: border-box; margin: 0; padding: 0; }
 
- /* ===== 最強のiOS Safari対策ベース設定 ===== */
+  /* 🚨 修正1：タッチやスクロールの完全禁止を解除（pan-yを追加） */
   html, body {
-    touch-action: pan-y; /* スクロールを許可 */
+    touch-action: pan-y auto;
     -webkit-user-select: none;
     user-select: none;
     -webkit-touch-callout: none;
     overscroll-behavior: none;
-    
-    /* 🚨 100vhの呪いを解き、スマホの実際に見える高さ（dvh）に合わせる */
-    height: 100%;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    min-height: 100dvh; 
+    height: auto;
+    min-height: 100%;
   }
 
+  /* 🚨 修正2：PC版でも画面が狭いときは縦スクロールを許可！ */
   body {
     font-family: 'Noto Serif JP', serif;
     background: var(--bg-void);
     color: var(--text-primary);
-    
-    /* 🚨 パソコンでもスマホでも、スクロールできるように解放 */
-    overflow-y: auto; 
+    min-height: 100vh;
+    overflow-y: auto;    /* 👈 ここを hidden から auto に変更！ */
     overflow-x: hidden;
-    
     display: flex;
     flex-direction: column;
   }
@@ -110,11 +105,11 @@
     filter: drop-shadow(0 0 20px rgba(201,162,39,0.5));
   }
 
-  /* ===== メインレイアウト ===== */
+ /* ===== メインレイアウト ===== */
   .app-body {
     flex: 1;
     display: flex;
-    overflow: hidden;
+    overflow: visible; /* 👈 ここを hidden から visible に変更！ */
     position: relative;
     z-index: 1;
   }
@@ -1078,8 +1073,12 @@
     flex-direction: column;
     min-height: 0;
   }
-  .tab-page.active {
-    display: flex;
+  .tab-page {
+    display: none;
+    flex: 1;
+    overflow: visible; /* 👈 ここを hidden から visible に変更！ */
+    flex-direction: column;
+    min-height: 0;
   }
 
   .gallery-page-inner {
